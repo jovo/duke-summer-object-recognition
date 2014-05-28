@@ -1,20 +1,31 @@
-function [ correlation ] = correlationGaussian( imageF, x, y, r )
+function [ imageF, mini ] = correlationGaussian( imageF, x, y, r, mini, cutoff )
 
 %Computes correlation of two images
 %   Detailed explanation goes here
+%correlationMatrix=zeros(121,121);
+[xMax, yMax]=size(imageF);
 
-
-correlation=0;
-
-innerSum=0;
-for i=-1*25:1:25;
-    innerSum=innerSum+gaussmf(y+i,[r, 1])*imageF(x,y); 
+for i=-1*2*r:1:2*r;
+    if x+i>xMax
+        break;
+    end;
+    for j=-1*2*r:1:2*r;
+        if y+j>yMax
+            break;
+        end;
+        if imageF(x+i,y+j)>150
+            continue;
+        end;
+        correlation=imageF(x+i,y+j)*GaussianCompute(i,j,r);
+        %correlationMatrix(i+61,j+61)=correlation;
+        if correlation<cutoff
+            imageF(x+i,y+j)=255;
+        end;
+        if correlation<mini
+            mini=correlation;
+        end;
+    end;
 end;
 
-for j=-1*25:1:25;
-    correlation=correlation+gaussmf(x+j, [r,1]);
-end;
-
-correlation=innerSum*correlation;
 end
 
