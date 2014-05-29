@@ -1,7 +1,7 @@
-function [ imageF, mini ] = correlationGaussian( imageF, x, y, r, mini, cutoff )
+function [ imageF, mini ] = multiplyingMask( imageF, x, y, r, mini, cutoff )
 
 %Computes correlation of two images
-%   Detailed explanation goes here
+%Detailed explanation goes here
 %correlationMatrix=zeros(121,121);
 [xMax, yMax]=size(imageF);
 
@@ -26,6 +26,6 @@ for i=-1*2*r:1:2*r;
         end;
     end;
 end;
-
+    
 end
 
