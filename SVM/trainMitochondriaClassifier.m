@@ -1,7 +1,7 @@
-function [ svm ] = trainMitochondriaClassifier(info, classification)
+function [ svm ] = TrainMitochondriaClassifier(info, classification)
 %trains classifier
-%info is NxM matrix where N is samples and M is features
-%classification is matrix of logicals corresponding to true/false cases
+%X info is NxM matrix where N is samples and M is features
+%Y classification is matrix of logicals corresponding to true/false cases
 
 %tic
 
