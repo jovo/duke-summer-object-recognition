@@ -1,4 +1,4 @@
-function [ X,Y ] = KNNUpdate(centroids,passDir,failDir)
+function [ X,Y ] = KNNUpdateDir(centroids,passDir,failDir)
 %Using KNN to make R100 vectors of passing and failing training data
 %centroids refers to the K-Means cetroids
 %X and Y are the classifier inputs
