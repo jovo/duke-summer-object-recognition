@@ -1,25 +1,22 @@
-function [label,score] = ClassifyBOW(SVMModel,testFileName,centroids )
+function [label,score] = ClassifyBOW(SVMModel,testCell,centroids )
 %Classifies mitochondria using Bag of Words technique
 %   Detailed explanation goes here
 
-file=dir(testFileName);
+sz=size(testCell,2);
 
-[sizeFile,temp1]=size(file);
 
 testMat=[];
 
-for i=1:1:sizeFile;
-    data=file(i);
-    if isequal(strfind(data.name,'testcase'),[])==0 %name contains 'testcase'
-        countKMeans=zeros(1,100);
-        R25Mat=MakeR25Vectors(strcat(testFileName,'/',data.name));
-        IDX=knnsearch(centroids,R25Mat);
-        [sizeIDX,temp3]=size(IDX);
-        for ind=1:1:sizeIDX;
-            countKMeans(IDX(ind))=countKMeans(IDX(ind))+1;
-        end;
-        testMat=[testMat;countKMeans];
+for i=1:1:sz;
+    I=testCell{1,i};
+    countKMeans=zeros(1,100);
+    R100Mat=MakeR100Vectors(I);
+    IDX=knnsearch(double(centroids),double(R100Mat));
+    [sizeIDX,temp3]=size(IDX);
+    for ind=1:1:sizeIDX;
+        countKMeans(IDX(ind))=countKMeans(IDX(ind))+1;
     end;
+    testMat=[testMat;countKMeans];
 end;
 
 [label,score]=predict(SVMModel,testMat);

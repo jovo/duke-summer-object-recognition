@@ -1,15 +1,15 @@
 function [ V ] = MakeTrainingKMeans( cellM )
 %cellM for mitochondria training cases
-%output is V which are matrices of R25 row vectors to be used
+%output is V which are matrices of R100 row vectors to be used
 %with kmeans
-
+tic
 V=[];
 sz=size(cellM,2);
 for i=1:1:sz;
-    R25VMatrix=MakeR25Vectors(cellM{1,i});
-    V=[V;R25VMatrix];
+    R100VMatrix=MakeR100Vectors(cellM{1,i});
+    V=[V;R100VMatrix];
 end;
-
+toc
 % file=dir(dirName);
 % [sizeP,temp1]=size(file);
 
