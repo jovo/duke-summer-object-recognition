@@ -16,6 +16,7 @@ for i=1:1:sz;
     for ind=1:1:sizeIDX;
         countKMeans(IDX(ind))=countKMeans(IDX(ind))+1;
     end;
+    countKMeans=countKMeans/sum(countKMeans);
     testMat=[testMat;countKMeans];
 end;
 

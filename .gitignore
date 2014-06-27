@@ -6,3 +6,5 @@
 MaskImage/runHistoGUI.m
 
 *.m~
+
+SVM/RegionPropSVM/test51.j2c

@@ -2,7 +2,7 @@ function [X,Y] = BOWClassifierInputs(centroids,passCell,failCell)
 %Using KNN to make R100 vectors of passing and failing training data
 %centroids refers to the K-Means cetroids
 %X and Y are the classifier inputs
-tic
+
 szP=size(passCell,2);
 szF=size(failCell,2);
 
@@ -17,6 +17,7 @@ for i=1:1:szP;
     for ind=1:1:sizeIDX;
         countKMeans(IDX(ind))=countKMeans(IDX(ind))+1;
     end;
+    countKMeans=countKMeans/sum(countKMeans); %Normalize
     X=[X;countKMeans];
     Y=[Y;[1]];
 end;
@@ -29,10 +30,11 @@ for i=1:1:szF;
     for ind=1:1:sizeIDX;
         countKMeans(IDX(ind))=countKMeans(IDX(ind))+1;
     end;
+    countKMeans=countKMeans/sum(countKMeans); %Normalize
     X=[X;countKMeans];
     Y=[Y;[0]];
 end;
 
-toc
+
 end
 
