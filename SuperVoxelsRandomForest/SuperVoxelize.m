@@ -23,28 +23,31 @@ if (mod(sigma1,2) == 0)
 else
     w  = sigma1;
 end
-
+warning('off');
 [outImg, param] =  shiftableBF(double(imSlice), sigma1, sigma2, w, tol);
-
+warning('on');
 outImg = single(outImg)/255;
 outImg(:,:,2) = outImg(:,:,1);
 outImg(:,:,3) = outImg(:,:,1);
 
 %Ready for SLIC
 imSeg = vl_slic(outImg, 25, 1);
-
+%imSeg = vl_slic(outImg, 15, 1);
 
 [sx,sy]=vl_grad(double(imSeg), 'type', 'forward');
 s = find(sx | sy);
 imSlice(s) = 0;
 BW(s)=0;
 
-[labelMat,numCC]=bwlabel(BW, 4);
+%[labelMat,numCC]=bwlabel(BW, 4);
+imSeg=imSeg+1;
+numCC=max(max(imSeg));
 SVCell={}; %SV 
 cur=1;
 [Gmag,Gdir]=imgradient(I);
 while cur<=numCC;
-    SV=labelMat==cur;
+    %SV=labelMat==cur;
+    SV=imSeg==cur;
     [y,x]=find(SV);
     SVCoor=[y,x];
     SVInt=[];
@@ -55,9 +58,8 @@ while cur<=numCC;
         SVInt=[SVInt;[Intensity]];
     end;
     MedI=median(SVInt);
-    if MedI<=142 & MedI>=30 & size(SVCoor,1)>10;
-    %if size(SVCoor,1)>10
-        SV=SuperVoxel(SVCoor,SVInt);
+    if MedI<=142 & MedI>=30 & size(SVCoor,1)>10 & size(SVCoor,2)==2
+        SV=SuperVoxel(SVCoor,SVInt,Gmag);
         if isequal(find(isnan(SV.FVector)),zeros(1,0))
             SVCell{end+1}=SV;
         end;
