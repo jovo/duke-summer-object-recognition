@@ -1,4 +1,4 @@
-function [ model ] = RFClassiferModel(X,Y)
+function [ model ] = RFClassifierModel(X,Y)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 tic

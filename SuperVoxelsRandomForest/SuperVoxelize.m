@@ -58,8 +58,8 @@ while cur<=numCC;
         SVInt=[SVInt;[Intensity]];
     end;
     MedI=median(SVInt);
-    if MedI<=142 & MedI>=30 & size(SVCoor,1)>10 & size(SVCoor,2)==2
-        SV=SuperVoxel(SVCoor,SVInt,Gmag);
+    if MedI<=170 & MedI>=30 & size(SVCoor,1)>10 & size(SVCoor,2)==2
+        SV=SuperVoxel(SVCoor,SVInt,Gmag,I);
         if isequal(find(isnan(SV.FVector)),zeros(1,0))
             SVCell{end+1}=SV;
         end;
