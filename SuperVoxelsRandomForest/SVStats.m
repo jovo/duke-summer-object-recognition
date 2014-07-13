@@ -3,8 +3,7 @@ function [MGm,...
     M6,V6,Md6,Pcr256,Pcr756,MGm6,...
     M9,V9,Md9,Pcr259,Pcr759,MGm9,...
     MMore,VMore,MdMore,Pcr25More,Pcr75More,MGmMore,...
-    H,...
-    GVec]...
+    H]...
     =SVStats( SVCoor, SVInt ,Gmag)
 %Outputs properties for SuperVoxel Class.
 % M=mean, V=Variance, H=Histogram
@@ -64,8 +63,7 @@ for i=1:1:size(SVCoor,1)
         G3(G3i)=gm;
         I3i=I3i+1;
         G3i=G3i+1;
-%         E3=[E3;EI];
-%         O3=[O3;OI];
+
 %         E3=E3+EI;
 %         E3C=E3C+1;
 %         O3=O3+EI;
@@ -75,8 +73,7 @@ for i=1:1:size(SVCoor,1)
         G6(G6i)=gm;
         I6i=I6i+1;
         G6i=G6i+1;
-%         E6=[E6;EI];
-%         O6=[O6;OI];
+
 %         E6=E6+EI;
 %         E6C=E6C+1;
 %         O6=O6+EI;
@@ -86,8 +83,7 @@ for i=1:1:size(SVCoor,1)
         G9(G9i)=gm;
         I9i=I9i+1;
         G9i=G9i+1;
-%         E9=[E9;EI];
-%         O9=[O9;OI];
+
 %         E9=E9+EI;
 %         E9C=E9C+1;
 %         O9=O9+EI;
@@ -97,8 +93,7 @@ for i=1:1:size(SVCoor,1)
         GMore(GMi)=gm;
         IMi=IMi+1;
         GMi=GMi+1;
-%         EMore=[EMore;EI];
-%         OMore=[OMore;OI];
+
 %         EMore=EMore+EI;
 %         EMC=EMC+1;
 %         OMore=OMore+EI;
@@ -147,25 +142,17 @@ Pcr25More=prctile(IMore,25);
 Pcr75More=prctile(IMore,75);
 MGmMore=mean(GMore);
 
-% ME3=mean(E3);
-% ME6=mean(E6);
-% ME9=mean(E9);
-% MEMore=mean(EMore);
-%ME3=E3/E3C;
-%ME6=E6/E6C;
-%ME9=E9/E9C;
-%MEMore=EMore/EMC;
-
-% MO3=mean(O3);
-% MO6=mean(O6);
-% MO9=mean(O9);
-% MOMore=mean(OMore);
-%MO3=O3/O3C;
-%MO6=O6/O6C;
-%MO9=O9/O9C;
-%MOMore=OMore/OMC;
-
-
-%GVec=[ME,ME3,ME6,ME9,MEMore,MO,MO3,MO6,MO9,MOMore]; 
+% ME3=E3/E3C;
+% ME6=E6/E6C;
+% ME9=E9/E9C;
+% MEMore=EMore/EMC;
+% 
+% MO3=O3/O3C;
+% MO6=O6/O6C;
+% MO9=O9/O9C;
+% MOMore=OMore/OMC;
+% 
+% 
+% GVec=[ME,ME3,ME6,ME9,MEMore,MO,MO3,MO6,MO9,MOMore]; 
 end
 

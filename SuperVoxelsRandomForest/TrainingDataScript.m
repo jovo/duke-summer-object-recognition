@@ -1,7 +1,7 @@
 tic
-L=load('AC4_matrices.mat');
-imagestack=getfield(L,'imageAC4');
+imagestack=getfield(load('AC4_matrices.mat'),'imageAC4');
 TruthData=getfield(load('TruthData.mat'),'TruthData');
+CodeBook=getfield(load('CodeBook.mat'),'CodeBook');
 
 T={};
 F={};
@@ -15,7 +15,7 @@ for i=1:1:40
     BW=TruthData(:,:,i);
     [y,x]=find(BW);
     coor=[y,x];
-    [SPI,bw,SVCell]=SuperVoxelize(I);
+    [SPI,bw,SVCell]=SuperVoxelize(I,CodeBook);
 %     for k=1:1:size(SVCell,2)
 %         sv=SVCell{1,k};
 %         if sv.Median>160 | sv.Median<50

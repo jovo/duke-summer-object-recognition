@@ -5,6 +5,8 @@ tic
 X=zeros(size(mito,2)+size(notMito,2),size(mito{1,1}.FVector,2));
 Y=zeros(size(mito,2)+size(notMito,2),1);
 
+%ProjSV=getfield(load('ProjSV'),'ProjSV');
+
 ind=1;
 for i=1:1:size(mito,2)
     SV=mito{1,i};
@@ -21,6 +23,9 @@ for i=1:1:size(notMito,2)
     %Y(ind,1)=0;
     ind=ind+1;
 end;
+
+%X=X*ProjSV;
+
 toc
 end
 

@@ -1,4 +1,4 @@
-function [imSlice,BW,SVCell] = SuperVoxelize(I)
+function [imSlice,BW,SVCell] = SuperVoxelize(I,CodeBook)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -42,7 +42,7 @@ BW(s)=0;
 %[labelMat,numCC]=bwlabel(BW, 4);
 imSeg=imSeg+1;
 numCC=max(max(imSeg));
-SVCell={}; %SV 
+SVCell=cell(1,numCC); %SV 
 cur=1;
 [Gmag,Gdir]=imgradient(I);
 while cur<=numCC;
@@ -50,21 +50,22 @@ while cur<=numCC;
     SV=imSeg==cur;
     [y,x]=find(SV);
     SVCoor=[y,x];
-    SVInt=[];
+    SVInt=zeros(size(SVCoor,1),1);
     for j=1:1:size(SVCoor,1);
         yt=SVCoor(j,1);
         xt=SVCoor(j,2);
-        Intensity=I(yt,xt);
-        SVInt=[SVInt;[Intensity]];
+        SVInt(j,1)=I(yt,xt);
     end;
     MedI=median(SVInt);
     if MedI<=170 & MedI>=30 & size(SVCoor,1)>10 & size(SVCoor,2)==2
-        SV=SuperVoxel(SVCoor,SVInt,Gmag,I);
+        SV=SuperVoxel(SVCoor,SVInt,I,CodeBook,Gmag);
         if isequal(find(isnan(SV.FVector)),zeros(1,0))
-            SVCell{end+1}=SV;
+            SVCell{1,cur}=SV;
         end;
     end;
     cur=cur+1;
 end;
+
+SVCell=SVCell(~cellfun(@isempty, SVCell));
 
 end

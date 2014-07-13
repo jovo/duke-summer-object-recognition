@@ -19,11 +19,17 @@ function [ Imarked,RGBI,M,BW,mito] = DetectSV(SVCell,model,I)
 % mito: Cell of detected SuperVoxels where mitochondria occur
 %
 
-X=[];
+%ProjSV=getfield(load('ProjSV'),'ProjSV');
+
+X=zeros(size(SVCell,2),size(SVCell{1,1}.FVector,2));
+indX=1;
 for i=1:1:size(SVCell,2)
     sv=SVCell{1,i};
-    X=[X;sv.FVector];
+    X(indX,:)=sv.FVector;
+    indX=indX+1;
 end;
+
+%X=X*ProjSV;
 
 [L,P]=classRF_predict(X,model);
 mito={};

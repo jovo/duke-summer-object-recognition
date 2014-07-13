@@ -3,7 +3,7 @@
 L=load('TruthData.mat');
 TruthData=getfield(L,'TruthData');
 
-L=load('RFResult_2.mat');
+L=load('RFResult_7.mat');
 MitoSV=getfield(L,'MitoSV');
 BinaryResult=getfield(L,'BinaryResult');
 DesiredBR=BinaryResult(:,:,60:100); % CHANGE THIS
