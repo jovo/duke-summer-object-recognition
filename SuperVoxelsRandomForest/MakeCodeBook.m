@@ -98,6 +98,7 @@ for i=1:1:size(IndexVector,2)
     end;
 end;
 toc
+disp(size(R100MatFull));
 
 %% K-means with k=100 to make CodeBook
 disp('Making CodeBook');

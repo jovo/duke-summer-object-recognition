@@ -17,12 +17,12 @@ Julia Ni
 Dean Kleissas
 Duke University Math RTG
 
-Files with this project:
+Code and Files with this project:
 activecontour_2.m
 CodeBook.mat
 DetectionAPI.m
 DetectSV.m
-ErrorMetricsScript3D.m
+ErrorMetrics3D.m
 GUIResults.m
 MakeCodeBook.m
 MakeR100Vectors.m
@@ -33,7 +33,8 @@ RFClassifierModel.m
 RFModel500_5.mat
 SuperVoxel.m
 SuperVoxelize.m
-TrainingDataScript.m
+SVStats.m
+TrainingData.m
 
 
 BEFORE YOU RUN THE SCRIPTS!!!:
@@ -137,5 +138,45 @@ Example Demo using default properties: Run MitochondriaDetection (the program wi
 	Name of Author of Results:Joy
 (NOTE: THIS IS NOT A DEFAULT! JOY IS MY NAME! CHANGE THIS TO YOUR DESIRED AUTHOR NAME!)	
 	Now processing mitochondria: (k of n)…
+	
+	Now uploading…
+
+	>>
+
+
+
+Making Model with your own Training Data:
+
+You can also make your own training data. The inputs which you will need are imagestack 
+(which is a downloaded image cube from the OCP API) and TruthData (which is a logical cube the same size as imagestack, but represents the manual binary annotations of mitochondria). 
+
+Let imagestack be the 100 AC4 images from the API (i.e., the cutout from the default inputs) and TruthData be the mitochondria annotations.
+
+First you need to make an CodeBook:
+>> CodeBook=MakeCodeBook(imagestack,[1:2:40]); (i.e., making the code book from every other image from the first 40 images; usually, the CodeBook process is computationally expensive so best to make a CodeBook from subset of training data).
+
+Next, you will need to get the True and False SuperVoxels:
+>>[mito,notMito]=TrainingData(imagestack,TruthData,CodeBook,1,40); (i.e., get true and false mitochondria SuperVoxels from the first 40 images) 
+
+Now, make the classifier:
+[X,Y]=RFClassifierInputs(mito,notMito);
+RFModel=RFClassifierModel(X,Y);
+Note: You can go into the function, RFClassifierModel, to change the Random Forest settings.
+
+To use self-generated models, change the “Detection” portion of the MitochondriaDetection script.
+
+ErrorMetrics:
+To use the ErrorMetrics script, you will need to save the results from the MitochondriaDetection and TruthData; the results you saved will be BinaryResult and MitochondriaSV.
+To get ErrorMetrics:
+>> ErrorMetrics3D(TruthData,BinaryResult,MitochondriaSV,60,100)
+% of 3D Connected Components Truth Mitochondria 50-to-100percentOverlap Detected by Supervoxels:76.4045
+% of 3D Connected Components Truth Mitochondria 20-to-50percentOverlap Detected by Supervoxels:12.3596
+% of 3D Connected Components Truth Mitochondria 0-to-20percentOverlap Detected by Supervoxels:2.2472
+% of 3D Connected Components Truth Mitochondria 0percentOverlap Detected by Supervoxels:8.9888
+% of 2D Supervoxels Detected which were True Positives:86.2796
+% of 2D Supervoxels Detected which were False Positives:13.7204
+>>
+These error metrics are printed out based on the last 40 images.
+
 
 	

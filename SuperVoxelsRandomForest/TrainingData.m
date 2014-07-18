@@ -55,7 +55,7 @@ for i=Start:1:End
     for j=1:1:size(SVCell,2)
         notMito{end+1}=SVCell{1,j};
     end;
-    disp(i);
+    disp(strcat('Processed image:',num2str(i)));
     %toc
 end;
 toc
