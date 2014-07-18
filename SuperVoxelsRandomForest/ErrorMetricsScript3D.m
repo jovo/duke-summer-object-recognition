@@ -1,19 +1,34 @@
-% Error Metrics 3D
+function ErrorMetrics3D(TruthData,BinaryResult,MitoSV,start,end)
+% Author: Joy Patel (2014)
+% ErrorMetrics for Mitochondria Detection
+%
+% Input:
+% TruthData: logical binary truth data image cube for mitochondria
+%
+% BinaryResult: logical binary image cube representing detected
+% mitochondria
+%
+% MitoSV: 1-by-100 cell of cells of Supervoxels of detected mitochondria
+% where the ith cell represents the SuperVoxels detected in the ith (z-coordinate)
+% image
+%
+% start: starting z-coordinate of images from where you want
+% the error metrics to begin
+%
+% end: ending z-coordinate of image form where you want the
+% error metrics to stop
 
-L=load('TruthData.mat');
-TruthData=getfield(L,'TruthData');
+%% Error Metrics regarding percent of Mitochondria detected
 
-L=load('RFResult_7.mat');
-MitoSV=getfield(L,'MitoSV');
-BinaryResult=getfield(L,'BinaryResult');
-DesiredBR=BinaryResult(:,:,60:100); % CHANGE THIS
+DesiredBR=BinaryResult(:,:,start:end); % CHANGE THIS
 %DesiredBR=BinaryResult;
 
-HalfFullPosiMito=0;
-PartPosiMito=0;
-FalseNegaMito=0; 
+Detect50_100=0; % count for mitochondria [50,100] percent detected
+Detect20_50=0; % count for mitochondria [20,50] percent detected
+Detect0_20=0; % count for mitochondria (0,20] percent detected
+Detect0=0; % count for mitochondria 0 percent detected
 
-DesiredTruth=TruthData(:,:,60:100); % CHANGE THIS
+DesiredTruth=TruthData(:,:,start:end); % CHANGE THIS
 %DesiredTruth=TruthData;
 CC=bwconncomp(DesiredTruth,26);
 TotalMito=CC.NumObjects;
@@ -37,23 +52,39 @@ for i=1:1:CC.NumObjects %i has to start from 1 here
     end;
     OverlapVol=CountResVol/TrueVol;
     if OverlapVol>=.5
-        HalfFullPosiMito=HalfFullPosiMito+1;
+        Detect50_100=Detect50_100+1;
     elseif OverlapVol>=.2 & OverlapVol<.5
-        PartPosiMito=PartPosiMito+1;
-    elseif OverlapVol>=0 & OverlapVol<.2
-        FalseNegaMito=FalseNegaMito+1;
+        Detect20_50=Detect20_50+1;
+    elseif OverlapVol>0 & OverlapVol<.2
+        Detect0_20=Detect0_20+1;
+    elseif OverlapVol==0
+        Detect0=Detect0+1;
     end;
 end;
 
-HFPosiMitoPercent=HalfFullPosiMito/TotalMito
-PPosiMitoPercent=PartPosiMito/TotalMito
-FNegaMitoPercent=FalseNegaMito/TotalMito
+Detect50_100Pct=Detect50_100/TotalMito; % percent for mitochondria [50,100] percent detected
+Detect20_50Pct=Detect20_50/TotalMito; % percent for mitochondria [20,50] percent detected
+Detect0_20Pct=Detect0_20/TotalMito; % percemt for mitochondria (0,20] percent detected
+Detect0Pct=Detect0/TotalMito; % percent for mitochondria 0 percent detected
 
+disp(sprintf(strcat('% of 3D Connected Components Truth Mitochondria 50-to-100percent',...
+                    'Overlap Detected by Supervoxels:', num2str(Detect50_100Pct))));
+disp(sprintf(strcat('% of 3D Connected Components Truth Mitochondria 20-to-50percent',...
+                    'Overlap Detected by Supervoxels:', num2str(Detect20_50Pct))));
+disp(sprintf(strcat('% of 3D Connected Components Truth Mitochondria 0-to-20percent',...
+                    'Overlap Detected by Supervoxels:', num2str(Detect0_20Pct))));
+disp(sprintf(strcat('% of 3D Connected Components Truth Mitochondria 0percent',...
+                    'Overlap Detected by Supervoxels:', num2str(Detect0Pct))));
 
-TruePosiSV=0;
-FalsePosiSV=0;
-TotalSVDetected=0;
-for i=60:1:size(TruthData,3) % CHANGE THIS
+%% Error Metrics for True and False Positives for SuperVoxels detected as mitochondria
+                                                                
+TruePosiSV=0; % count for SuperVoxels detected as true positives
+              % (i.e., overlap with mitochondria)
+FalsePosiSV=0; % count for SuperVoxels detected as false positives
+               % (i.e., don't overlap with mitochondria)
+TotalSVDetected=0; % total SuperVoxels
+                                                                
+for i=start:1:end % CHANGE THIS
     SVCell=MitoSV{1,i};
     TotalSV=size(SVCell,2);
     TotalSVDetected=TotalSVDetected+TotalSV;
@@ -74,6 +105,10 @@ for i=60:1:size(TruthData,3) % CHANGE THIS
     end;
 end;
 
-TPosiSVPercent=TruePosiSV/TotalSVDetected
-FPosiSVPercent=FalsePosiSV/TotalSVDetected
+TPosiSVPct=TruePosiSV/TotalSVDetected; % percent for SuperVoxels detected as true positives
+FPosiSVPct=FalsePosiSV/TotalSVDetected; % percent for SuperVoxels detected as false positives
 
+disp(sprintf(strcat('% of 2D Supervoxels Detected which were True Positives:',num2str(TPosiSVPct))));
+disp(sprintf(strcat('% of 2D Supervoxels Detected which were False Positives:',num2str(FPosiSVPct))));
+
+end

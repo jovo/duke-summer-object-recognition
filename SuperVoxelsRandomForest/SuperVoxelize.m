@@ -1,6 +1,20 @@
 function [imSlice,BW,SVCell] = SuperVoxelize(I,CodeBook)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+% Mainly outputs SuperVoxels which will undergo Random Forest machine learning
+% detection.  
+%
+% Inputs:
+% I: Image to undergo SuperVoxel transform
+%
+% CodeBook: codebook matrix for generating Bag-of-Words features for
+% SuperVoxel class
+%
+% Output:
+% imSlice: image I with SuperVoxel boundaries
+%
+% BW: Binary image of SuperVoxel boundaries
+% 
+% SVCell: Cell of SuperVoxel objects which will undergo machine learning
+% predict
 
 % Supervoxels require preprocessing
 imSeg = zeros(size(I));

@@ -5,102 +5,108 @@ function [MGm,...
     MMore,VMore,MdMore,Pcr25More,Pcr75More,MGmMore,...
     H]...
     =SVStats( SVCoor, SVInt ,Gmag)
-%Outputs properties for SuperVoxel Class.
-% M=mean, V=Variance, H=Histogram
-%   Detailed explanation goes here
 
+% Outputs feature vector features for SuperVoxel class.
+% Author: Joy Patel (Summer 2014)
+% 
+% Inputs:
+% SVCoor: SVCoor from SuperVoxel class 
+%
+% SVInt: SVInt from SuperVoxel class
+%
+% Gmag: matrix of image gradient magnitudes for image in which Super Voxels
+% are being created
+%
+% Outputs:
+% MGm: mean image gradient magnitude of SuperVoxel
+%
+% Mn: Mean grayscale value taken from a annulus of radius (n-3)-to-n pixels 
+% from center of SuperVoxel; "More" implies annulus is of radius 9+ pixels
+% 
+% Vm: Variance grayscale value taken from a annulus of radius (n-3)-to-n 
+% pixels from center of SuperVoxel; "More" implies annulus is of radius 9+ 
+% pixels
+% 
+% Mdn: Median grayscale value taken from a annulus of radius (n-3)-to-n 
+% pixels from center of SuperVoxel; "More" implies annulus is of radius 9+ 
+% pixels
+%
+% Pcr25n: 25th percentile grayscale value taken from a annulus of radius 
+% (n-3)-to-n pixels from center of SuperVoxel; "More" implies annulus is of
+% radius 9+ pixels
+%
+% Pcr75n: 75th percentile grayscale value taken from a annulus of radius 
+% (n-3)-to-n pixels from center of SuperVoxel; "More" implies annulus is of
+% radius 9+ pixels
+%
+% MGmn: Mean gradient magnitude grayscale value taken from a annulus of radius 
+% (n-3)-to-n pixels from center of SuperVoxel; "More" implies annulus is of
+% radius 9+ pixels
+%
 
+% In: grayscale values taken from an annulus of radius (n-3)-to-n pixels 
+% from center of SuperVoxel; "More" implies annulus is of
+% radius 9+ pixels 
 I3=zeros(1,size(SVCoor,1)); I6=zeros(1,size(SVCoor,1)); 
 I9=zeros(1,size(SVCoor,1)); IMore=zeros(1,size(SVCoor,1));
+% First zero index
 I3i=1; I6i=1; I9i=1; IMi=1;
 
+% GM: image gradient values of SuperVoxel
 GM=zeros(size(SVCoor,1),1);
+% Gn: In: image gradient magnitude values taken from an annulus of radius 
+% (n-3)-to-n pixels from center of SuperVoxel; "More" implies annulus is of
+% radius 9+ pixels
 G3=zeros(1,size(SVCoor,1)); G6=zeros(1,size(SVCoor,1)); 
 G9=zeros(1,size(SVCoor,1)); GMore=zeros(1,size(SVCoor,1));
-G3i=1; G6i=1;G9i=1; GMi=1;
+% First zero index
+G3i=1; G6i=1;G9i=1; GMi=1; 
+
+% Histogram vector
 H=zeros(1,26);
 
-% yM=max(SVCoor(:,1)); xM=max(SVCoor(:,2));
-% ym=min(SVCoor(:,1)); xm=min(SVCoor(:,2));
-% GI=double(I(ym:yM,xm:xM));
-% [E,O]=gabor_filt(GI,8,0,30,.12,.12);
-% E=E.^2;
-% O=O.^2;
-% ME=zeros(1,6); %mean even
-% MO=zeros(1,6); %mean odd
-% for i=1:1:6
-%     ME(1,i)=mean(mean(E(:,:,i)));
-%     MO(1,i)=mean(mean(O(:,:,i)));
-% end;
-% E3=0; E6=0; E9=0; EMore=0;
-% E3C=0; E6C=0; E9C=0; EMC=0;
-% O3=0; O6=0; O9=0; OMore=0;
-% O3C=0; O6C=0; O9C=0; OMC=0;
-
+% Center of SuperVoxel
 Centroid=double(sum(SVCoor))/size(SVCoor,1);
 yC=round(Centroid(1,1)); xC=round(Centroid(1,2));
 
 for i=1:1:size(SVCoor,1)
-    IV=SVInt(i,1); %Intensity Value (Grayscale)
+    IV=SVInt(i,1); % Grayscale value
     ind=floor(IV/10)+1;
-    H(1,ind)=H(1,ind)+1;
+    H(1,ind)=H(1,ind)+1; % Update Histogram Vector
     
     yi=round(SVCoor(i,1)); xi=round(SVCoor(i,2));
     
-    gm=Gmag(yi,xi);
-    GM(i,1)=gm;
-        
-%     EI=zeros(1,6);
-%     OI=zeros(1,6);
-%     for j=1:1:6
-%         EI(1,j)=E(yi-ym+1,xi-xm+1,j);
-%         OI(1,j)=O(yi-ym+1,xi-xm+1,j);
-%     end;
-    
+    gm=Gmag(yi,xi); 
+    GM(i,1)=gm; % Update gradient magnitude
+            
+    % Center of SuperVoxel
     y=yi-yC; x=xi-xC;
+    
+    % Update In and Gn
     if x*x+y*y>=0 && x*x+y*y<=9 
         I3(I3i)=IV;
         G3(G3i)=gm;
         I3i=I3i+1;
         G3i=G3i+1;
-
-%         E3=E3+EI;
-%         E3C=E3C+1;
-%         O3=O3+EI;
-%         O3C=O3C+1;
     elseif x*x+y*y>=9 && x*x+y*y<=36
         I6(I6i)=IV;
         G6(G6i)=gm;
         I6i=I6i+1;
         G6i=G6i+1;
-
-%         E6=E6+EI;
-%         E6C=E6C+1;
-%         O6=O6+EI;
-%         O6C=O6C+1;
     elseif x*x+y*y>=36 && x*x+y*y<=81
         I9(I9i)=IV;
         G9(G9i)=gm;
         I9i=I9i+1;
         G9i=G9i+1;
-
-%         E9=E9+EI;
-%         E9C=E9C+1;
-%         O9=O9+EI;
-%         O9C=O9C+1;
     elseif x*x+y*y>=81
         IMore(IMi)=IV;
         GMore(GMi)=gm;
         IMi=IMi+1;
         GMi=GMi+1;
-
-%         EMore=EMore+EI;
-%         EMC=EMC+1;
-%         OMore=OMore+EI;
-%         OMC=OMC+1;
     end;
 end;
 
+% Remove zeros
 I3(:,all(~I3,1))=[];
 I6(:,all(~I6,1))=[];
 I9(:,all(~I9,1))=[];
@@ -111,7 +117,9 @@ G6(:,all(~G6,1))=[];
 G9(:,all(~G9,1))=[];
 GMore(:,all(~GMore,1))=[];
 
-H=H/sum(H);
+H=H/sum(H); % Normalize Histogram Vector
+
+% Compute features
 MGm=mean(GM);
 
 M3=mean(I3);
@@ -142,17 +150,5 @@ Pcr25More=prctile(IMore,25);
 Pcr75More=prctile(IMore,75);
 MGmMore=mean(GMore);
 
-% ME3=E3/E3C;
-% ME6=E6/E6C;
-% ME9=E9/E9C;
-% MEMore=EMore/EMC;
-% 
-% MO3=O3/O3C;
-% MO6=O6/O6C;
-% MO9=O9/O9C;
-% MOMore=OMore/OMC;
-% 
-% 
-% GVec=[ME,ME3,ME6,ME9,MEMore,MO,MO3,MO6,MO9,MOMore]; 
 end
 
