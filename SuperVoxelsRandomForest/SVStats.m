@@ -43,7 +43,7 @@ function [MGm,...
 % (n-3)-to-n pixels from center of SuperVoxel; "More" implies annulus is of
 % radius 9+ pixels
 %
-
+%% Pre-allocate Data
 % In: grayscale values taken from an annulus of radius (n-3)-to-n pixels 
 % from center of SuperVoxel; "More" implies annulus is of
 % radius 9+ pixels 
@@ -68,7 +68,7 @@ H=zeros(1,26);
 % Center of SuperVoxel
 Centroid=double(sum(SVCoor))/size(SVCoor,1);
 yC=round(Centroid(1,1)); xC=round(Centroid(1,2));
-
+%% Compute Features
 for i=1:1:size(SVCoor,1)
     IV=SVInt(i,1); % Grayscale value
     ind=floor(IV/10)+1;
@@ -106,6 +106,7 @@ for i=1:1:size(SVCoor,1)
     end;
 end;
 
+%% Add Features to Pre-allocated Data
 % Remove zeros
 I3(:,all(~I3,1))=[];
 I6(:,all(~I6,1))=[];

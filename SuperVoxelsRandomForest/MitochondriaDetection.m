@@ -65,7 +65,7 @@ while true
                 strcmp(Input,'N')==1 | strcmp(Input,'n')==1)
             break;
             end;
-            disp(sprintf('\nInvalid input! Type Y or N.\n'));
+            fprintf('\nInvalid input! Type Y or N.\n');
         end;
         if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1)
             continue;
@@ -92,7 +92,7 @@ while true
 end;
 
 %% Query for image data
-disp(sprintf('\nSetting Image Dense Query'));
+fprintf('\nSetting Image Dense Query\n');
 q=OCPQuery(eOCPQueryType.imageDense);
 
 %% xyz Range
@@ -160,7 +160,7 @@ while true
             strcmp(Input,'N')==1 | strcmp(Input,'n')==1)
         break;
     end;
-    disp(sprintf('\nInvalid input! Type Y or N.\n'));
+    fprintf('\nInvalid input! Type Y or N.\n');
 end;
 
 if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1)
@@ -170,7 +170,7 @@ end;
 %% Detection
 Input=input('Press enter to start Mitochondria Detection','s');
 
-disp(sprintf('\nStarting Mitochondria Detection:\n'));
+fprintf('\nStarting Mitochondria Detection:\n');
 % You can change model and CodeBook if you did your own training
 Model=getfield(load('RFModel500_5.mat'),'RFModel'); %Random Forest Model Used
 CodeBook=getfield(load('CodeBook.mat'),'CodeBook'); %CodeBook for Bag-of-Words used
@@ -186,33 +186,33 @@ while true
             strcmp(Input,'N')==1 | strcmp(Input,'n')==1)
         break;
     end;
-    disp(sprintf('\nInvalid input! Type Y or N.\n'));
+    fprintf('\nInvalid input! Type Y or N.\n');
 end;
 
 if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1)
     GUIResults(imagestack,BinaryResult);
-    disp(sprintf(strcat('\nNote: The color of the mitochondria detected shown in GUI',...
+    fprintf(strcat('\nNote: The color of the mitochondria detected shown in GUI',...
         '\nmay not be the same as those of the mitochondria uploaded',...
         '\nto the OCP API (should you later choose to upload the results).',...
         '\nHowever, the detected mitochondria pixel positions will be the same.',...
-        '\nThe GUI is here just to visually show the results.')));
+        '\nThe GUI is here just to visually show the results.\n'));
 end;
 
 %% Saving Results
 
-disp(fprintf(strcat('\nSaving Results Option:\n',...
+fprintf(strcat('\nSaving Results Option:\n',...
                     'You can save your results.\n',...
                     'For memory purposes, only the Binary Result\n',...
                     'and the Mitochondria SuperVoxels are saved.\n',...
                     'To view the colored results in a GUI, use the\n',...
-                    'GUIResult function.')));
+                    'GUIResult function.\n'));
 while true
     Input=input(sprintf('\nWould you like to save your results:'),'s');
     if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1 | ...
             strcmp(Input,'N')==1 | strcmp(Input,'n')==1)
         break;
     end;
-    disp(sprintf('\nInvalid input! Type Y or N.\n'));
+    fprintf('\nInvalid input! Type Y or N.\n');
 end;
 
 if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1)
@@ -229,7 +229,7 @@ while true
             strcmp(Input,'N')==1 | strcmp(Input,'n')==1)
         break;
     end;
-    disp(sprintf('\nInvalid input! Type Y or N.\n'));
+    fprintf('\nInvalid input! Type Y or N.\n');
 end;
 
 if (strcmp(Input,'Y')==1 | strcmp(Input,'y')==1)

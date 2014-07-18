@@ -16,9 +16,9 @@ function [imSlice,BW,SVCell] = SuperVoxelize(I,CodeBook)
 % SVCell: Cell of SuperVoxel objects which will undergo machine learning
 % predict
 
+%% make image into SuperVoxels
 % Supervoxels require preprocessing
 imSeg = zeros(size(I));
-
 
 [ysz,xsz]=size(I);
 BW=ones(ysz,xsz);
@@ -53,10 +53,11 @@ s = find(sx | sy);
 imSlice(s) = 0;
 BW(s)=0;
 
+%% Make SuperVoxel objects
 %[labelMat,numCC]=bwlabel(BW, 4);
-imSeg=imSeg+1;
+imSeg=imSeg+1; % make non-zero
 numCC=max(max(imSeg));
-SVCell=cell(1,numCC); %SV 
+SVCell=cell(1,numCC); %cell fo SuperVoxels
 cur=1;
 [Gmag,Gdir]=imgradient(I);
 while cur<=numCC;

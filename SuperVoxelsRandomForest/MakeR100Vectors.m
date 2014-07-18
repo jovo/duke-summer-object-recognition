@@ -1,12 +1,20 @@
 function [ R100VMatrix ] = MakeR100Vectors( image )
 %Makes R100 vectors to be used with K-Means for Bag-of-Words
-%tic
+%
+% Input:
+% image: image from which to extract all 10-by-10 (R100) regions
+% 
+% Output:
+% R100VMatrix: n by 100 MAtrix of the R100 Vectors for an image
+%
+%% Read in image
 if ischar(image)==1
     I=imread(image);
 else
     I=image;
 end;
 
+%% Pre-allocate Data and Make R100 Matrix
 [ySize,xSize]=size(I);
 R100VMatrix=zeros((xSize-9)*(ySize-9),100);
 ind=1;
@@ -20,5 +28,5 @@ for y=1:1:ySize-9;
         ind=ind+1;
     end;
 end;
-%toc
+
 end
