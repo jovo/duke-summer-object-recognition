@@ -6,7 +6,7 @@ testMat=zeros(numIm,12);
 for i=1:1:numIm;
     prop=RegionPropVector(strcat(testFile,'/testcase',int2str(i),'.png'));
     for j=1:1:12;
-        testMat(i,j)=prop(j,1);
+        testMat(i,j)=prop(1,j);
     end;
 end;
 

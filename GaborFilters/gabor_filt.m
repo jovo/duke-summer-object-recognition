@@ -111,8 +111,8 @@ function [Eim, Oim, Aim] = gabor_filt(im, wavelength, startangle, angle, kx, ky)
 %     figure, imshow(Oim); title('oddfilter');
 %     
     %%%%Shows Original Slide with Even Gabor Filters%%%%
- figure, imshow(im);
- figure, imshow(Eim(:,:,N), [min(Eim(:)),max(Eim(:))]); title('filterEIM');
+ %figure, imshow(im);
+ %figure, imshow(Eim(:,:,N), [min(Eim(:)),max(Eim(:))]); title('filterEIM');
 
     end
     
