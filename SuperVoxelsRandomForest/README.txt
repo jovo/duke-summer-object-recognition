@@ -38,23 +38,22 @@ TrainingData.m
 
 
 BEFORE YOU RUN THE SCRIPTS!!!:
-1) Make sure you have the Open Connectome Project downloaded and installed from: http://www.openconnectomeproject.org/#!services/chru. The code for this API must be in your Matlab path via cajal3d script.
+1) Make sure you have the Open Connectome Project API Version 1.2 downloaded and installed from: http://www.openconnectomeproject.org/#!services/chru. There is a README with the API code which has instructions for installation. Add the code for this API in your Matlab path via cajal3d script.
 
-2) Make sure you have the VL Feat toolbox installed and in your Matlab path via vl_setup.  This can be downloaded from: http://www.vlfeat.org/.
+2) Make sure you have the VL Feat toolbox Version 0.9.18 installed.  This can be downloaded from: http://www.vlfeat.org/.  There is a README with this toolbox for installation purposes.  Add the code for this toolbox in your Matlab path via the vl_setup script (make sure to use this script when adding to path).
 
-3) Download the fast bilateral filter code from: http://www.mathworks.com/matlabcentral/fileexchange/36657-fast-bilateral-filter. Make sure this code is in your Matlab path.
+3) Download the fast bilateral filter code from: http://www.mathworks.com/matlabcentral/fileexchange/36657-fast-bilateral-filter. Make sure the entire code for this is in your Matlab path.
 
-4) Download the Matlab Random Forest code from Google via: https://code.google.com/p/randomforest-matlab/. Make sure you have RF_Class_C code in your Matlab path. Note: The Random Forest code is written in C. Hence, you will need to compile mex files to use Random Forest for Matlab. Instructions for compiling the mex files or using precompiled mex files are found on the site and README for the code. 
-- Note: During the process of using Random Forest, issues occurred with compiling mex files on Mac computers for later versions of Matlab.  Hence, pre-compiled mex files (tested for Matlab 2014) for Mac 64-bit users can be found at: https://code.google.com/p/randomforest-matlab/issues/detail?id=54.     
+4) Download the Matlab Random Forest Version 0.02 code from Google via: https://code.google.com/p/randomforest-matlab/downloads/list; download the RF_MexStandalone-v.0.02.zip for the actual Random Forest Code; then, based on your operating system, compile or download the pre-compiled mex files. Add RF_Class_C directory code to your Matlab path. Reminder: The Random Forest code is written in C. Hence, you will need to get mex files to use Random Forest for Matlab. Instructions for compiling the mex files or using precompiled mex files are found on the site and README for the code.
+- For Linux and Windows, run the compile_linux.m or compile_windows.m script, respectively, in the RF_Class_C directory; the mex files should compile in the src directory.
+- For Mac, follow the procedures on the website.  
+- Note: During the process of using Random Forest, issues occurred with compiling mex files on Mac computers for later versions of Matlab.  Hence, pre-compiled mex files (tested for Matlab 2014) for Mac 64-bit users can be found at: https://code.google.com/p/randomforest-matlab/issues/detail?id=54.  Put the pre-compiled mex files in RF_Class_C/src/.
+Add RF_Class_C directory code to your Matlab path (for all users).     
  
-
-
-
 
 
 Mitochondria Detection:
 The MitochondriaDetection.m script is the main script to use for detection.  This script, downloads data from the Open Connectome Project, detects mitochondria, and re-uploads annotations back to API. An example of the inputs is shown further below.
-
 
 Example Demo using default properties: Run MitochondriaDetection (the program will ask for inputs in the command window; follow along with this demo)
 	>> MitochondriaDetection
@@ -145,6 +144,7 @@ Example Demo using default properties: Run MitochondriaDetection (the program wi
 
 
 
+
 Making Model with your own Training Data:
 
 You can also make your own training data. The inputs which you will need are imagestack 
@@ -164,6 +164,8 @@ RFModel=RFClassifierModel(X,Y);
 Note: You can go into the function, RFClassifierModel, to change the Random Forest settings.
 
 To use self-generated models, change the “Detection” portion of the MitochondriaDetection script.
+
+
 
 ErrorMetrics:
 To use the ErrorMetrics script, you will need to save the results from the MitochondriaDetection and TruthData; the results you saved will be BinaryResult and MitochondriaSV.

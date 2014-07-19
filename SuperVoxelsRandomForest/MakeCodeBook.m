@@ -56,15 +56,24 @@ for i=IndexVector
         SV=imSeg==cur;
         [y,x]=find(SV);
         SVCoor=[y,x];
+        SVInt=zeros(size(SVCoor,1),1);
+        for j=1:1:size(SVCoor,1);
+            yt=SVCoor(j,1);
+            xt=SVCoor(j,2);
+            SVInt(j,1)=I(yt,xt);
+        end;
+        MedI=median(SVInt);
         % Image crop to make R100 Vectors
-        yM=max(SVCoor(:,1)); xM=max(SVCoor(:,2));
-        ym=min(SVCoor(:,1)); xm=min(SVCoor(:,2));
-        IC=double(I(ym:yM,xm:xM));
-
-        % Matrix of R100 vectors to be used for Bag-of-Words
-        R100Cell{1,cur}=MakeR100Vectors(IC);
+        if MedI<=170 & MedI>=30 & size(SVCoor,1)>100 & size(SVCoor,2)==2
+            % Matrix of R100 vectors to be used for Bag-of-Words
+            yM=max(SVCoor(:,1)); xM=max(SVCoor(:,2));
+            ym=min(SVCoor(:,1)); xm=min(SVCoor(:,2));
+            IC=double(I(ym:yM,xm:xM));
+            R100Cell{1,cur}=MakeR100Vectors(IC);
+        end;
         cur=cur+1;
     end;
+    R100Cell=R100Cell(~cellfun(@isempty, R100Cell));
     ImageR100Cell{1,i}=R100Cell;
     disp(strcat('Processed image:',num2str(i)));
     toc

@@ -72,7 +72,7 @@ while cur<=numCC;
         SVInt(j,1)=I(yt,xt);
     end;
     MedI=median(SVInt);
-    if MedI<=170 & MedI>=30 & size(SVCoor,1)>10 & size(SVCoor,2)==2
+    if MedI<=170 & MedI>=30 & size(SVCoor,1)>100 & size(SVCoor,2)==2
         SV=SuperVoxel(SVCoor,SVInt,I,CodeBook,Gmag);
         if isequal(find(isnan(SV.FVector)),zeros(1,0))
             SVCell{1,cur}=SV;
