@@ -1,4 +1,10 @@
 README for Mitochondria Detection Project via Open Connectome Project API Matlab
+Github Repository: https://github.com/openconnectome/object-recognition.git
+Slideshare: http://www.slideshare.net/coco1290/mitochondria-detection
+
+To get the code for this project, download the directory:
+SuperVoxelsRandomForest
+(the other directories are irrelevant)
 
 Main Authors:
 Joy Patel
