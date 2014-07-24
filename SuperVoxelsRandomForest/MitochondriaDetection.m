@@ -172,8 +172,8 @@ Input=input('Press enter to start Mitochondria Detection','s');
 
 fprintf('\nStarting Mitochondria Detection:\n');
 % You can change model and CodeBook if you did your own training
-Model=getfield(load('RFModel500_5.mat'),'RFModel'); %Random Forest Model Used
-CodeBook=getfield(load('CodeBook.mat'),'CodeBook'); %CodeBook for Bag-of-Words used
+Model=getfield(load('RFModel500_11.mat'),'RFModel'); %Random Forest Model Used
+CodeBook=getfield(load('CodeBook_10.mat'),'CodeBook'); %CodeBook for Bag-of-Words used
 
 imagestack=cutout.data;
 

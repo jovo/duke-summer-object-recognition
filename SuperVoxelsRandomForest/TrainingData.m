@@ -56,6 +56,7 @@ for i=Start:1:End
         notMito{end+1}=SVCell{1,j};
     end;
     disp(strcat('Processed image:',num2str(i)));
+    %disp(size(mito{1}.FVector));
     %toc
 end;
 toc
