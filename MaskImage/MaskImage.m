@@ -5,19 +5,19 @@ image2 = double(rgb2gray(imread('image.png')))/255;
 image3 = double(rgb2gray(imread('image.png')))/255;
 image4 = double(rgb2gray(imread('image.png')))/255;
 %image = (imread('image.png'));
-mask = imread('colors2.png');%Be sure that this is a PNG!
+mask = imread('colors7.png');%Be sure that this is a PNG!
 
 %%%%%%%Green Highlighted Object%%%%%%%%%%%
-RValue = 36;
+RValue = 0;
 GValue = 255;
 BValue = 0;
 %Create the binary mask for the chosen color
 binaryMask = mask(:, :, 1) == RValue & mask(:, :, 2) == GValue & mask(:, :, 3) == BValue;
 
 %%%%%%%Pink Highlighted Object%%%%%%%%%%%
-RValue = 214;
-GValue = 23;
-BValue = 194;
+RValue = 255;
+GValue = 19;
+BValue = 229;
 %Create the binary mask for the chosen color
 binaryMask1 = mask(:, :, 1) == RValue & mask(:, :, 2) == GValue & mask(:, :, 3) == BValue;
 
